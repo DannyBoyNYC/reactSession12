@@ -43,9 +43,20 @@ app.get('/api/killall', recipeControllers.killall);
 
 const PORT = process.env.PORT || 5000;
 
+process.on('SIGINT', shutdown);
+
+function shutdown() {
+  console.log('graceful shutdown express');
+  server.close(function() {
+    console.log('closed express');
+  });
+}
+
 mongoose
   .connect(dataBaseURL, { useNewUrlParser: true })
   .then(() => console.log('MongoDb connected'))
   .catch(err => console.warn(err));
 
-app.listen(PORT, () => console.log(`Server running at port ${PORT}`));
+const server = app.listen(PORT, () =>
+  console.log(`Server running at port ${PORT}`),
+);

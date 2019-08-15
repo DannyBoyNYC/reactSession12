@@ -1,6 +1,7 @@
 import React, { Component, createRef } from 'react';
 import FileUpload from './FileUpload';
 import { FaTimesCircle } from 'react-icons/fa';
+import { Link } from '@reach/router';
 
 class ListRecipes extends Component {
   render() {
@@ -8,7 +9,7 @@ class ListRecipes extends Component {
       <ul>
         {this.props.recipes.map(recipe => (
           <li key={recipe._id}>
-            {recipe.title}{' '}
+            <Link to={`/editrecipe/${recipe._id}`}>{recipe.title}</Link>{' '}
             <button
               style={{ backgroundColor: 'transparent', border: 'none' }}
               onClick={() => this.props.handleDelete(recipe._id)}

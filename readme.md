@@ -1305,7 +1305,7 @@ class EditRecipe extends React.Component {
 
   componentDidMount() {
     this.setState({ isLoading: true });
-    fetch(`http://localhost:5000/api/recipes/${this.props.recipeid}`)
+    fetch(`http://localhost:5000/api/recipes/${this.props.recipeId}`)
       .then(response => response.json())
       .then(recipe =>
         this.setState({
@@ -1328,7 +1328,9 @@ class EditRecipe extends React.Component {
 export default EditRecipe;
 ```
 
-Add a link in maintenance:
+Add a link in RecipeMaintenance:
+
+`import { Link } from '@reach/router';`
 
 ```js
 class ListRecipes extends Component {
@@ -1337,7 +1339,9 @@ class ListRecipes extends Component {
       <ul>
         {this.props.recipes.map(recipe => (
           <li key={recipe._id}>
+
             <Link to={`/editrecipe/${recipe._id}`}>{recipe.title}</Link>{' '}
+
             <button
               style={{ backgroundColor: 'transparent', border: 'none' }}
               onClick={() => this.props.handleDelete(recipe._id)}
@@ -1351,6 +1355,10 @@ class ListRecipes extends Component {
   }
 }
 ```
+
+Routing in App.js:
+
+`<EditRecipe path='/editrecipe/:recipeId' />`
 
 Expand edit form:
 

@@ -2,6 +2,7 @@ import React from 'react';
 import Recipes from './Recipes';
 import RecipeDetails from './RecipeDetails';
 import RecipeMaintenance from './RecipeMaintenance';
+import EditRecipe from './EditRecipe';
 
 import { Router, Link } from '@reach/router';
 
@@ -10,7 +11,7 @@ class App extends React.Component {
     super(props);
     this.state = {
       recipes: [],
-      isLoading: false,
+      isLoading: false
     };
     this.handleDelete = this.handleDelete.bind(this);
   }
@@ -20,8 +21,8 @@ class App extends React.Component {
       .then(response => response.json())
       .then(recipes =>
         this.setState({
-          recipes: recipes,
-        }),
+          recipes: recipes
+        })
       );
   }
 
@@ -30,9 +31,9 @@ class App extends React.Component {
     fetch(`http://localhost:5000/api/recipes`, {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json',
+        'Content-Type': 'application/json'
       },
-      body: JSON.stringify(recipe),
+      body: JSON.stringify(recipe)
     })
       .then(response => response.json())
       .then(recipe => console.log(recipe));
@@ -43,7 +44,7 @@ class App extends React.Component {
 
   handleDelete(id) {
     fetch(`http://localhost:5000/api/recipes/${id}`, {
-      method: 'DELETE',
+      method: 'DELETE'
     });
     const recipes = [...this.state.recipes];
     recipes.splice(id, 1);
@@ -58,17 +59,18 @@ class App extends React.Component {
     return (
       <div>
         <nav>
-          <Link to="/">Home</Link> <Link to="/maintenance">Maintenance</Link>
+          <Link to='/'>Home</Link> <Link to='/maintenance'>Maintenance</Link>
         </nav>
         <Router>
-          <Recipes path="/" recipes={this.state.recipes} />
-          <RecipeDetails path="/recipe/:recipeId" />
+          <Recipes path='/' recipes={this.state.recipes} />
+          <RecipeDetails path='/recipe/:recipeId' />
           <RecipeMaintenance
-            path="/maintenance"
+            path='/maintenance'
             addRecipe={this.addRecipe}
             recipes={this.state.recipes}
             handleDelete={this.handleDelete}
           />
+          <EditRecipe path='/editrecipe/:recipeId' />
         </Router>
       </div>
     );

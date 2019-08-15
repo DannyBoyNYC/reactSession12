@@ -1360,7 +1360,7 @@ Routing in App.js:
 
 `<EditRecipe path='/editrecipe/:recipeId' />`
 
-Expand edit form:
+Expand edit using a controlled form:
 
 ```js
 import React from 'react';
@@ -1368,6 +1368,7 @@ import React from 'react';
 class EditRecipe extends React.Component {
   state = {
     recipe: [],
+    title: '',
     isLoading: false
   };
 
@@ -1383,39 +1384,80 @@ class EditRecipe extends React.Component {
       );
   }
 
-  handleSubmit() {
-    return false;
-  }
+  handleChange = event => {
+    this.setState({ title: event.target.value });
+  };
+
+  handleSubmit = e => {
+    e.preventDefault();
+    console.log(this.state.title);
+    const updatedRecipe = {
+      title: this.state.title
+    };
+    const options = {
+      method: 'PUT',
+      body: JSON.stringify(updatedRecipe),
+      headers: { 'Content-Type': 'application/json' }
+    };
+    fetch(
+      `http://localhost:5000/api/recipes/${this.props.recipeId}`,
+      options
+    ).then(response => console.log(response));
+  };
 
   render() {
     return (
-      <div>
-        <h3>EDIT RECIPE</h3>
-        <form onSubmit={this.handleSubmit}>
-          <input
-            type='text'
-            placeholder='Recipe Title'
-            name='title'
-            value={this.state.recipe.title}
-          />
-          <input
-            type='text'
-            placeholder='Image'
-            name='image'
-            value={this.state.recipe.image}
-          />
-          <textarea
-            type='text'
-            placeholder='Description'
-            name='description'
-            value={this.state.recipe.description}
-          />
-          <button>Update</button>
-        </form>
-      </div>
+      <form onSubmit={e => this.handleSubmit(e)}>
+        <h3>Edit Recipe</h3>
+        <p>Current title: {this.state.recipe.title}</p>
+        <input
+          type='text'
+          placeholder='New Title'
+          name='title'
+          value={this.state.title}
+          onChange={this.handleChange}
+        />
+        <button type='submit'>Submit</button>
+      </form>
     );
   }
 }
 
 export default EditRecipe;
+
+```
+
+Heroku
+
+Install Heroku cli
+
+`https://devcenter.heroku.com/articles/heroku-cli`
+
+```sh
+$ heroku --version
+$ heroku login
+```
+
+Prep for deploy:
+
+`$ npm run build`
+
+`https://devcenter.heroku.com/articles/deploying-nodejs`
+
+```js
+// app.get('/', function(req, res) {
+//   res.sendFile(__dirname + '/public/index.html');
+// });
+```
+
+`const path = require(path)`
+
+```js
+// Serve static files in prod
+if(process.env.NODE_ENV === production){
+  app.use(express.static('client/build'))
+  app.get('*', (req, res) => {
+    res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'))
+  })
+}
 ```

@@ -46,7 +46,7 @@ exports.killall = (req, res) => {
   });
 };
 
-exports.upload = function(req, res) {
+exports.upload = (req, res) => {
   console.log(req.files);
   if (Object.keys(req.files).length == 0) {
     return res.status(400).send('No files were uploaded.');
@@ -56,7 +56,7 @@ exports.upload = function(req, res) {
     if (err) {
       return res.status(500).send(err);
     }
-    return res.sendStatus(200);
+    res.json({ file: `/img/${req.body.filename}` });
   });
 };
 

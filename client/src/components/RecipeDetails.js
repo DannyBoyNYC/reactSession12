@@ -5,7 +5,7 @@ class RecipeDetails extends React.Component {
   state = {
     recipe: [],
     ingredients: [],
-    preparation: [],
+    preparation: []
   };
 
   componentDidMount() {
@@ -15,8 +15,8 @@ class RecipeDetails extends React.Component {
         this.setState({
           recipe: recipe,
           ingredients: recipe.ingredients,
-          preparation: recipe.preparation,
-        }),
+          preparation: recipe.preparation
+        })
       );
   }
 
@@ -25,10 +25,7 @@ class RecipeDetails extends React.Component {
 
     return (
       <div>
-        <img
-          src={`http://oit2.scps.nyu.edu/~devereld/intermediate/img/${image}`}
-          alt={title}
-        />
+        <img src={`http://localhost:5000/img/${image}`} alt={title} />
         <h3>
           <Link to={`/recipe/${_id}`}>{title}</Link>
         </h3>

@@ -1,4 +1,5 @@
 import React, { Component, createRef } from 'react';
+import FileUpload from './FileUpload';
 import { FaTimesCircle } from 'react-icons/fa';
 
 class ListRecipes extends Component {
@@ -39,7 +40,7 @@ class RecipeMaintenance extends Component {
   render() {
     return (
       <div>
-        <h3>Add Recipe Form</h3>
+        <h3>Add a Recipe</h3>
         <form onSubmit={e => this.createRecipe(e)}>
           <input
             type='text'
@@ -61,6 +62,9 @@ class RecipeMaintenance extends Component {
           />
           <button type='submit'>Submit</button>
         </form>
+        <h3>Add Recipe Image</h3>
+        <FileUpload />
+        <h3>Delete a Recipe</h3>
         <ListRecipes
           recipes={this.props.recipes}
           handleDelete={this.props.handleDelete}

@@ -14,7 +14,7 @@ app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*');
   res.header(
     'Access-Control-Allow-Headers',
-    'Origin, X-Requested-With, Content-Type, Accept',
+    'Origin, X-Requested-With, Content-Type, Accept'
   );
   res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
   next();
@@ -23,9 +23,6 @@ app.use(fileUpload());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json({ extended: false }));
 app.use(express.static('public'));
-
-// const dataBaseURL =
-//   'mongodb+srv://daniel:dd2345@recipes-3k4ea.mongodb.net/test?retryWrites=true&w=majority';
 
 const dataBaseURL = process.env.DATABASE;
 
@@ -40,6 +37,7 @@ app.put('/api/recipes/:id', recipeControllers.update);
 app.delete('/api/recipes/:id', recipeControllers.delete);
 app.get('/api/import', recipeControllers.import);
 app.get('/api/killall', recipeControllers.killall);
+app.post('/api/upload', recipeControllers.upload);
 
 const PORT = process.env.PORT || 5000;
 
@@ -58,5 +56,5 @@ mongoose
   .catch(err => console.warn(err));
 
 const server = app.listen(PORT, () =>
-  console.log(`Server running at port ${PORT}`),
+  console.log(`Server running at port ${PORT}`)
 );

@@ -14,6 +14,7 @@
   - [Another State](#another-state)
   - [react-icons](#react-icons)
   - [Notes](#notes)
+  - [Uploading an Image](#uploading-an-image)
   - [Editing a Recipe](#editing-a-recipe)
 
 ## Homework
@@ -1175,6 +1176,119 @@ Try removing the border:
 `style={{ backgroundColor: 'transparent', border: 'none' }}`
 
 ## Notes
+
+## Uploading an Image
+
+Server.js
+
+```js
+app.post('/api/upload', recipeControllers.upload);
+```
+
+recipes.controllers.js:
+
+```js
+exports.upload = (req, res) => {
+  console.log(req.files);
+  if (Object.keys(req.files).length == 0) {
+    return res.status(400).send('No files were uploaded.');
+  }
+  let file = req.files.file;
+  file.mv(`./public/img/${req.body.filename}`, err => {
+    if (err) {
+      return res.status(500).send(err);
+    }
+    // new
+    res.json({ file: `/img/${req.body.filename}` });
+  });
+};
+```
+
+FileUpload.js:
+
+```js
+import React from 'react';
+
+class FileUpload extends React.Component {
+  state = {
+    imageURL: ''
+  };
+
+  handleUploadImage = e => {
+    e.preventDefault();
+
+    const data = new FormData();
+    data.append('file', this.uploadInput.files[0]);
+    data.append('filename', this.fileName.value);
+
+    fetch('http://localhost:5000/api/upload', {
+      method: 'POST',
+      body: data
+    }).then(response => {
+      response.json().then(body => {
+        this.setState({ imageURL: `http://localhost:5000/${body.file}` });
+      });
+    });
+  };
+
+  render() {
+    return (
+      <form onSubmit={this.handleUploadImage}>
+        <input
+          ref={ref => {
+            this.uploadInput = ref;
+          }}
+          type='file'
+        />
+
+        <input
+          ref={ref => {
+            this.fileName = ref;
+          }}
+          type='text'
+          placeholder='Enter the name and extension of the file'
+        />
+
+        <button>Upload</button>
+        <div>
+          {this.state.imageURL && (
+            <img src={this.state.imageURL} alt='upload preview' />
+          )}
+        </div>
+      </form>
+    );
+  }
+}
+
+export default FileUpload;
+
+```
+
+RecipeMaintenance.js
+
+```js
+import FileUpload from './FileUpload';
+```
+
+and
+
+```js
+<h3>Add Recipe Image</h3>
+<FileUpload />
+<h3>Delete a Recipe</h3>
+<ListRecipes
+  recipes={this.props.recipes}
+  handleDelete={this.props.handleDelete}
+/>
+```
+
+Refer to the server for our images elsewhere in the project.
+
+e.g. in `Recipe.js` and `RecipeDetails.js`:
+
+```js
+<img src={`http://localhost:5000/img/${image}`} alt={title} />
+```
 
 ## Editing a Recipe
 

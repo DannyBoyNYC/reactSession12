@@ -21,7 +21,7 @@ app.use((req, res, next) => {
 app.use(fileUpload());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json({ extended: false }));
-app.use(express.static('public'));
+// app.use(express.static('public'));
 
 const dataBaseURL = process.env.DATABASE;
 

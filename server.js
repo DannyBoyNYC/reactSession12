@@ -1,6 +1,5 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const bodyParser = require('body-parser');
 const fileUpload = require('express-fileupload');
 
 const recipeModel = require('./api/recipe.model');
@@ -26,9 +25,9 @@ app.use(express.static('public'));
 
 const dataBaseURL = process.env.DATABASE;
 
-// app.get('/', function(req, res) {
-//   res.sendFile(__dirname + '/public/index.html');
-// });
+app.get('/', function(req, res) {
+  res.sendFile(__dirname + '/public/index.html');
+});
 
 app.get('/api/recipes', recipeControllers.findAll);
 app.get('/api/recipes/:id', recipeControllers.findById);
@@ -51,7 +50,8 @@ const PORT = process.env.PORT || 5000;
 // }
 
 // Serve static files in prod
-if (process.env.NODE_ENV === production) {
+// console.log(process.env.NODE_ENV);
+if (process.env.NODE_ENV === 'production') {
   app.use(express.static('client/build'));
   app.get('*', (req, res) => {
     res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));

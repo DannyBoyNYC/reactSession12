@@ -1461,3 +1461,20 @@ if(process.env.NODE_ENV === production){
   })
 }
 ```
+
+```sh
+$ heroku create
+$ git init
+$ git add .
+$ git commit -m 'ready for deploy'
+```
+
+Go to `appname` on Heroku > Deploy and get the heroku remote, e.g.
+
+`heroku git:remote -a powerful-tundra-22886`
+
+Paste it in the terminal and
+
+`git push heroku master`
+
+`heroku open`

@@ -25,9 +25,9 @@ app.use(express.static('public'));
 
 const dataBaseURL = process.env.DATABASE;
 
-app.get('/', function(req, res) {
-  res.sendFile(__dirname + '/public/index.html');
-});
+// app.get('/', function(req, res) {
+//   res.sendFile(__dirname + '/public/index.html');
+// });
 
 app.get('/api/recipes', recipeControllers.findAll);
 app.get('/api/recipes/:id', recipeControllers.findById);

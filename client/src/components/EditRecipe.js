@@ -25,19 +25,22 @@ class EditRecipe extends React.Component {
 
   handleSubmit = e => {
     e.preventDefault();
-    console.log(this.state.title);
     const updatedRecipe = {
       title: this.state.title
     };
-    const options = {
-      method: 'PUT',
-      body: JSON.stringify(updatedRecipe),
-      headers: { 'Content-Type': 'application/json' }
-    };
-    fetch(
-      `http://localhost:5000/api/recipes/${this.props.recipeId}`,
-      options
-    ).then(response => console.log(response));
+    this.props.updateRecipe(this.state.recipe._id, updatedRecipe);
+    // const updatedRecipe = {
+    //   title: this.state.title
+    // };
+    // const options = {
+    //   method: 'PUT',
+    //   body: JSON.stringify(updatedRecipe),
+    //   headers: { 'Content-Type': 'application/json' }
+    // };
+    // fetch(
+    //   `http://localhost:5000/api/recipes/${this.props.recipeId}`,
+    //   options
+    // ).then(response => console.log(response));
   };
 
   render() {

@@ -51,6 +51,22 @@ class App extends React.Component {
     this.setState({ recipes: recipes });
   }
 
+  updateRecipe(id, updatedRecipe) {
+    console.log(id);
+    const options = {
+      method: 'PUT',
+      body: JSON.stringify(updatedRecipe),
+      headers: { 'Content-Type': 'application/json' }
+    };
+    fetch(`http://localhost:5000/api/recipes/${id}`, options)
+      .then(response => response.json())
+      .then(data =>
+        this.setState(state => {
+          return {};
+        })
+      );
+  }
+
   render() {
     if (this.state.isLoading) {
       return 'Loading...';
@@ -70,7 +86,10 @@ class App extends React.Component {
             recipes={this.state.recipes}
             handleDelete={this.handleDelete}
           />
-          <EditRecipe path='/editrecipe/:recipeId' />
+          <EditRecipe
+            path='/editrecipe/:recipeId'
+            updateRecipe={this.updateRecipe}
+          />
         </Router>
       </div>
     );
